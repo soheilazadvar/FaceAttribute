@@ -1,0 +1,24 @@
+{
+    "redis_key": "3ffd1179302933f687b26950cdfe9d8c573c3d773b944fc1d7ad14b33457c654",
+    "image_path": "./output/3ffd1179302933f687b26950cdfe9d8c573c3d773b944fc1d7ad14b33457c654.jpg",
+    "results": {
+        "landmark_service": {
+            "landmarks": [
+                [
+                    513,
+                    103,
+                    706,
+                    398
+                ]
+            ]
+        },
+        "agegender_service": {
+            "age": [
+                51
+            ],
+            "gender": [
+                "Female"
+            ]
+        }
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "redis_key": "881ef8f5e8c025c6fbbf04dfdd80b3c144f45b5f4b0773530e67264dae13461e",
+    "image_path": "./output/881ef8f5e8c025c6fbbf04dfdd80b3c144f45b5f4b0773530e67264dae13461e.jpg",
+    "results": {
+        "landmark_service": {
+            "landmarks": [
+                [
+                    105,
+                    137,
+                    238,
+                    339
+                ],
+                [
+                    654,
+                    67,
+                    797,
+                    256
+                ],
+                [
+                    407,
+                    300,
+                    529,
+                    465
+                ]
+            ]
+        },
+        "agegender_service": {
+            "age": [
+                35,
+                55,
+                29
+            ],
+            "gender": [
+                "Male",
+                "Male",
+                "Female"
+            ]
+        }
+    }
+}

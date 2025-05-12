@@ -1,0 +1,24 @@
+{
+    "redis_key": "6174ac23ae0cd37a8a95256a94a1ef3940c318386f9814237ac032787d3709c4",
+    "image_path": "./output/6174ac23ae0cd37a8a95256a94a1ef3940c318386f9814237ac032787d3709c4.jpg",
+    "results": {
+        "landmark_service": {
+            "landmarks": [
+                [
+                    543,
+                    80,
+                    823,
+                    466
+                ]
+            ]
+        },
+        "agegender_service": {
+            "age": [
+                51
+            ],
+            "gender": [
+                "Male"
+            ]
+        }
+    }
+}
