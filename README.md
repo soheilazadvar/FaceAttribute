@@ -1,7 +1,4 @@
-## Project
-
 # Face Attribute Aggregation System
-
 ## Overview
 
 A microservice-based(gRPC) system for detecting face landmarks, age/gender and storing attributes in JSON files using gRPC and Redis.
@@ -50,6 +47,7 @@ This is the output of `ImageInput` service:
 2025-05-13 01:31:20,198 - INFO - Landmark Detection: Success, Runtime: 2.7903292179107666
 2025-05-13 01:31:20,198 - INFO - Age Gender Estimation: Success, Runtime: 3.4611012935638428
 ```
+
 ### Detection
 
 For landmark and age/gender detection, I used the [`insightface`](https://github.com/deepinsight/insightface) Python library. However there are other options like [DeepFace](https://github.com/serengil/deepface), [SSR-NET](https://github.com/shamangary/SSR-Net), [FairFace](https://github.com/joojs/fairface), [MiVOLO](https://huggingface.co/Genius-Society/MiVOLO), [ViT](https://huggingface.co/nateraw/vit-age-classifier), and [OpenCV DNN (Caffe model)]()
