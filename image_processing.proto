@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package image_processing;
+
+// Message to carry image data
+message ImageRequest {
+  bytes image_data = 1;
+}
+
+// Message for Service 2 response (Face Landmark Detection)
+message LandmarkResponse {
+  string status = 1;
+  double runtime = 2;
+  string redis_key = 3;
+}
+
+// Message for Service 3 response (Age Gender Estimation)
+message AgeGenderResponse {
+  string status = 1;
+  double runtime = 2;
+  string redis_key = 3;
+}
+
+// Message for Service 4 request (from Service 2 or Service 3)
+message StorageRequest {
+  bytes image_data = 1;
+  string redis_key = 2;
+  double runtime = 3; 
+}
+
+// Message for Service 4 response
+message StorageResponse {
+  string status = 1;
+}
+
+// Message for Service 1 combined response
+message CombinedResponse {
+  string status = 1;
+  LandmarkResponse landmark_response = 2;
+  AgeGenderResponse age_gender_response = 3;
+}
+
+// Service 1: Image Input Service
+service ImageInput {
+  rpc ProcessImage(ImageRequest) returns (CombinedResponse) {}
+}
+
+// Service 2: Face Landmark Detection Service
+service FaceLandmarkDetection {
+  rpc DetectLandmarks(ImageRequest) returns (LandmarkResponse) {}
+}
+
+// Service 3: Age Gender Estimation Service
+service AgeGenderEstimation {
+  rpc EstimateAgeGender(ImageRequest) returns (AgeGenderResponse) {}
+}
+
+// Service 4: Data Storage Service
+service DataStorage {
+  rpc StoreData(StorageRequest) returns (StorageResponse) {}
+}

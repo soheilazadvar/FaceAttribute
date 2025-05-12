@@ -1,0 +1,14 @@
+grpcio==1.62.0
+grpcio-tools==1.62.0
+redis==5.0.3
+Pillow==10.2.0
+numpy==1.26.4
+onnxruntime
+insightface
+opencv-python
+tf-keras
+cython
+# ultralytics==8.2.0
+# supervision
+# transformers
+# mtcnn

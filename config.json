@@ -1,0 +1,10 @@
+{
+  "service1_address": "[::]:50051",
+  "service2_address": "[::]:50052",
+  "service3_address": "[::]:50053",
+  "service4_address": "[::]:50054",
+  "image_directory": "./images",
+  "output_directory": "./output",
+  "redis_host": "localhost",
+  "redis_port": 6379
+}
