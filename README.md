@@ -39,7 +39,17 @@ message CombinedResponse {
 }
 
 ```
-
+This is the output of `ImageInput` service:
+```
+2025-05-13 01:31:13,834 - INFO - Initialized stubs for Face Landmark Detection and Age Gender Estimation
+2025-05-13 01:31:13,837 - INFO - Image Input Service running on [::]:50051...
+2025-05-13 01:31:13,916 - INFO - Received image data for processing
+2025-05-13 01:31:16,721 - INFO - Face Landmark Detection responded: Success
+2025-05-13 01:31:20,194 - INFO - Age Gender Estimation responded: Success
+2025-05-13 01:31:20,198 - INFO - Processed SingleFace3.jpg: Success
+2025-05-13 01:31:20,198 - INFO - Landmark Detection: Success, Runtime: 2.7903292179107666
+2025-05-13 01:31:20,198 - INFO - Age Gender Estimation: Success, Runtime: 3.4611012935638428
+```
 ### Detection
 
 For landmark and age/gender detection, I used the [`insightface`](https://github.com/deepinsight/insightface) Python library. However there are other options like [DeepFace](https://github.com/serengil/deepface), [SSR-NET](https://github.com/shamangary/SSR-Net), [FairFace](https://github.com/joojs/fairface), [MiVOLO](https://huggingface.co/Genius-Society/MiVOLO), [ViT](https://huggingface.co/nateraw/vit-age-classifier), and [OpenCV DNN (Caffe model)]()
@@ -116,14 +126,19 @@ The Redis service might be stopped, which can be started and stopped again by th
 
 - `/etc/init.d/redis-server stop`\
 - `/etc/init.d/redis-server start`
-## Docker
-For making Doker container based on these service we need to define `Dockerfile` and `docker-compose.yml`
+## Running on Docker
+For making Doker container based on these service we need to define `Dockerfile` and `docker-compose.yaml`
 
-Since services have dependencies to eachother, we need to check these condistions like Redis and other ports(`50051-50054`) by using Docker `healthcheck`.
+Since services have dependencies to eachother, we need to check these condistions like Redis and other ports(`50051-50054`) by using Docker `healthcheck`. 
+
+In addition, for preventing local Redis to conflicts with Docker Redis, there is `"6380:6379"` in `docker-compose.yaml` which export port 6380 local to 6379 Docker.
+
 For building, running and stoppong containers:
 ```
 Docker Compose build
 Docker Compose up -d
 Docker Compose down
 ```
-Docker will create 5 containers, including 4 services and Redis. Unfortuantely, Docker raise error when image input want to send image data to other services while locally it did not have problem.
+Docker will create 5 containers, including 4 services and Redis. Unfortuantely, Docker raised error when image input want to send image data to other services while locally it did not have problem.
+
+
