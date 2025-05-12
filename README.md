@@ -99,16 +99,31 @@ The final result is like this JSON file:
 - `source myenv/bin/activate`
 - `pip install -r requirements.txt`
 
-2. Edit `config.json`
+2. Edit `config.json` for directories, service port, and Redis host and port.
 3. Copy sample images to `./images`.
 4. run `python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. image_processing.proto` to create 2 `.py` files.
-5. Run the `run.sh` script to ensure dependencies and run each service in the correct order.
+5. Check that ports `50051-50054`(defined in `config.json`) is free by running and killing process:
+- `sudo lsof -i :50051`
+- `sudo kill -9 <PID>`
+6. Run the `run.sh` script to ensure dependencies and run each service in the correct order.
 
 ### Redis
 
-If the redis-server is not ready, the app will raise an error. In order to check the Redis is ready or not, it can be checked by running `sudo netstat -tulnp | grep 6379` or `sudo netstat -tulnp | grep redis-server`. The default port of Redis is `6379`.
+If the redis-server is not ready, the app will raise an error. In order to check the Redis is ready or not, it can be checked by running `sudo netstat -tulnp | grep 6379` or `sudo netstat -tulnp | grep redis-server`. The default port of Redis is `6379`. 
+
 
 The Redis service might be stopped, which can be started and stopped again by these commands:
 
 - `/etc/init.d/redis-server stop`\
 - `/etc/init.d/redis-server start`
+## Docker
+For making Doker container based on these service we need to define `Dockerfile` and `docker-compose.yml`
+
+Since services have dependencies to eachother, we need to check these condistions like Redis and other ports(`50051-50054`) by using Docker `healthcheck`.
+For building, running and stoppong containers:
+```
+Docker Compose build
+Docker Compose up -d
+Docker Compose down
+```
+Docker will create 5 containers, including 4 services and Redis. Unfortuantely, Docker raise error when image input want to send image data to other services while locally it did not have problem.

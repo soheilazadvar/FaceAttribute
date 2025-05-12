@@ -8,7 +8,3 @@ insightface
 opencv-python
 tf-keras
 cython
-# ultralytics==8.2.0
-# supervision
-# transformers
-# mtcnn

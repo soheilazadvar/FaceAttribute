@@ -1,0 +1,108 @@
+services:
+  redis:
+    image: redis:7.0
+    ports:
+      - "6380:6379"
+    networks:
+      - image-processing-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  image-input-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python image_input_service.py
+    volumes:
+      - ./images:/app/images
+      - ./output:/app/output
+    depends_on:
+      redis:
+        condition: service_healthy
+      face-landmark-detection-service:
+        condition: service_healthy
+      age-gender-estimation-service:
+        condition: service_healthy
+      data-storage-service:
+        condition: service_healthy
+    networks:
+      - image-processing-net
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  face-landmark-detection-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python face_landmark_detection_service.py
+    volumes:
+      - ./images:/app/images
+      - ./output:/app/output
+    depends_on:
+      redis:
+        condition: service_healthy
+      data-storage-service:
+        condition: service_healthy
+    networks:
+      - image-processing-net
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "50052"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  age-gender-estimation-service: 
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python age_gender_estimation_service.py
+    volumes:
+      - ./images:/app/images
+      - ./output:/app/output
+    depends_on:
+      redis:
+        condition: service_healthy
+      data-storage-service:
+        condition: service_healthy
+    networks:
+      - image-processing-net
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "50053"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    environment:
+      - PYTHONUNBUFFERED=1
+
+  data-storage-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python data_storage_service.py
+    volumes:
+      - ./images:/app/images
+      - ./output:/app/output
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - image-processing-net
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "50054"]
+      interval: 20s
+      timeout: 15s
+      retries: 3
+      start_period: 15s
+    environment:
+      - PYTHONUNBUFFERED=1
+
+networks:
+  image-processing-net:
+    driver: bridge
