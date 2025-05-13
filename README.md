@@ -122,7 +122,7 @@ If the redis-server is not ready, the app will raise an error. In order to check
 
 The Redis service might be stopped, which can be started and stopped again by these commands:
 
-- `/etc/init.d/redis-server stop`\
+- `/etc/init.d/redis-server stop`
 - `/etc/init.d/redis-server start`
 ## Running on Docker
 For making Doker container based on these service we need to define `Dockerfile` and `docker-compose.yaml`

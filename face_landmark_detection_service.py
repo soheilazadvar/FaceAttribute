@@ -30,7 +30,7 @@ class FaceLandmarkDetectionService(image_processing_pb2_grpc.FaceLandmarkDetecti
         app = FaceAnalysis(name='buffalo_l', providers=['CPUExecutionProvider'])
         app.prepare(ctx_id=0, det_size=(640, 640))        
 
-        # Detect faces and predict age/gender
+        # Detect faces and landmark
         faces = app.get(img)
         results ={'landmarks':[]}
         for face in faces:
@@ -51,7 +51,6 @@ class FaceLandmarkDetectionService(image_processing_pb2_grpc.FaceLandmarkDetecti
             # Check if Service 3 output exists in Redis
             service3_data = self.redis_client.get(f"{redis_key}")
             data = json.loads(service3_data) if service3_data else {}
-            name = redis_key  # Default to redis_key as name
 
             # Save to Redis
             data['landmark_service']  = results_json

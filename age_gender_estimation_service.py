@@ -27,7 +27,6 @@ class AgeGenderEstimationService(image_processing_pb2_grpc.AgeGenderEstimationSe
         logger.info("Initialized Age Gender Estimation Service with Redis and Data Storage stub")
 
     def AgeGender(self , image_data):
-        print('in agegender')
         nparr = np.frombuffer(image_data, np.uint8)
         img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
         # Initialize FaceAnalysis with buffalo_l model (includes age and gender)
@@ -36,16 +35,13 @@ class AgeGenderEstimationService(image_processing_pb2_grpc.AgeGenderEstimationSe
 
         # Detect faces and predict age/gender
         faces = app.get(img)
-        # print(faces)
         results ={'age':[] , 'gender':[]}
         for face in faces:
             bbox = face.bbox.astype(int)
-            # print(bbox)
             gender = 'Male' if face.gender == 1 else 'Female'
             age = face.age
             results['age'].append(age)
             results['gender'].append(gender)
-            # print(f"Gender: {gender}, Age: {age}")
         return results
 
     def EstimateAgeGender(self, request, context):
@@ -59,7 +55,6 @@ class AgeGenderEstimationService(image_processing_pb2_grpc.AgeGenderEstimationSe
             # Check if Service 2 output exists in Redis
             service2_data = self.redis_client.get(f"{redis_key}")
             data = json.loads(service2_data) if service2_data else {}
-            name = redis_key  # Default to redis_key as name
 
             # Save to Redis
             data['agegender_service'] = results_json
